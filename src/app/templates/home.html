@@ -5,44 +5,116 @@
     <title>Binary Upload</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: #1a1a1a;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .form-container {
+            background: #2d2d2d;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
             max-width: 400px;
-            margin: auto;
+            margin: 20px;
+        }
+        h2 {
+            color: #00ff9d;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+        label {
+            color: #cccccc;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        input[type="file"] {
+            background: #3d3d3d;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #4d4d4d;
+            color: #ffffff;
+            width: 100%;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            background: #3d3d3d;
+            border: 1px solid #4d4d4d;
+            border-radius: 5px;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            appearance: none;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #00ff9d;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background: #00cc7d;
         }
         .popup {
             display: none;
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px;
+            background-color: #00ff9d;
+            color: #1a1a1a;
+            padding: 15px 25px;
             position: fixed;
             top: 20px;
             right: 20px;
             border-radius: 5px;
             z-index: 1000;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
     </style>
 </head>
 <body>
     <div class="form-container">
-        <h2>Upload Binary File</h2>
+        <h2>Binary File Upload</h2>
         <form id="uploadForm" enctype="multipart/form-data">
-            <label for="file">Select binary file:</label><br>
-            <input type="file" id="file" name="file" required><br><br>
+            <label for="file">Select File to Upload</label>
+            <input type="file" id="file" name="file" required>
 
-            <label for="environment">Environment:</label><br>
+            <label for="environment">Target Environment</label>
             <select id="environment" name="environment">
-                <option value="dev">dev</option>
-                <option value="prod">prod</option>
-            </select><br><br>
+                <option value="dev">Development</option>
+                <option value="prod">Production</option>
+            </select>
 
-            <button type="submit">UPLOAD</button>
+            <button type="submit">Upload File</button>
         </form>
     </div>
 
-    <div id="popup" class="popup">File Successfully Uploaded</div>
+    <div id="popup" class="popup">✓ File Successfully Uploaded</div>
 
     <script>
         const form = document.getElementById('uploadForm');
