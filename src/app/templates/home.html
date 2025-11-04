@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Binary Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        .form-container {
+            max-width: 400px;
+            margin: auto;
+        }
+        .popup {
+            display: none;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Upload Binary File</h2>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="file">Select binary file:</label><br>
+            <input type="file" id="file" name="file" required><br><br>
+
+            <label for="environment">Environment:</label><br>
+            <select id="environment" name="environment">
+                <option value="dev">dev</option>
+                <option value="prod">prod</option>
+            </select><br><br>
+
+            <button type="submit">UPLOAD</button>
+        </form>
+    </div>
+
+    <div id="popup" class="popup">File Successfully Uploaded</div>
+
+    <script>
+        const form = document.getElementById('uploadForm');
+        const popup = document.getElementById('popup');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    popup.textContent = "File Successfully Uploaded";
+                    popup.style.display = 'block';
+                    setTimeout(() => popup.style.display = 'none', 3000);
+                } else {
+                    alert("Upload failed.");
+                }
+            } catch (error) {
+                console.error("Error uploading file:", error);
+                alert("Error uploading file.");
+            }
+        });
+    </script>
+</body>
+</html>
