@@ -2,95 +2,134 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Sistema de Firma de Binarios</title>
+    <title>Sistema de Firma Digital</title>
     <style>
-        /* --- TEMA ORIGINAL (Colores Rojos/Oscuros) --- */
+        /* --- TEMA NUEVO (Azul / Morado / Neon) --- */
         :root {
-            --bg-dark: #1c1c1c;
-            --bg-container: #2a2a2a;
-            --border-color: #444;
-            --text-primary: #f0f0f0;
-            --text-secondary: #aaa;
-            --color-accent: #E63946;       
-            --color-accent-dark: #C0303E;
-            --color-success: #28a745;      
-            --color-warning: #ffc107;      
-            --color-text-black: #121212;
+            --bg-dark: #0f0c29; /* Fondo muy oscuro azulado */
+            --bg-gradient: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+            --bg-container: rgba(255, 255, 255, 0.05); /* Efecto cristal */
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            
+            /* Degradado principal para botones y acentos */
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-hover: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            
+            --color-success: #00b09b;      
+            --color-warning: #f7b733;      
+            --shadow-soft: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-                Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 20px;
             min-height: 100vh;
-            background: var(--bg-dark);
+            background: var(--bg-gradient);
             color: var(--text-primary);
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Animación de entrada */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
             color: var(--text-primary);
             margin-bottom: 2rem;
-            font-weight: 600;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(118, 75, 162, 0.5);
+            animation: fadeInDown 0.8s ease-out;
         }
 
-        /* --- CONTENEDOR DEL FORMULARIO --- */
+        /* --- CONTENEDOR DEL FORMULARIO (Glassmorphism) --- */
         .upload-wrapper {
             background: var(--bg-container);
             padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            box-shadow: var(--shadow-soft);
             width: 100%;
             max-width: 500px;
             margin-bottom: 2rem;
             border: 1px solid var(--border-color);
+            backdrop-filter: blur(4px);
+            animation: fadeInDown 1s ease-out;
+            transition: transform 0.3s ease;
+        }
+
+        .upload-wrapper:hover {
+            transform: translateY(-5px);
+            border-color: #764ba2;
         }
 
         .form-group { margin-bottom: 1.5rem; }
 
         label {
-            color: var(--text-secondary);
+            color: #d1d1d1;
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 0.9rem;
         }
         
         input[type="file"] {
             color: var(--text-primary);
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         select {
             width: 100%;
             padding: 12px;
-            background: #3d3d3d;
+            background: rgba(0,0,0,0.3);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             color: var(--text-primary);
             cursor: pointer;
             font-size: 1rem;
+            outline: none;
+            transition: border 0.3s;
         }
+        select:focus { border-color: #667eea; }
 
         button {
             width: 100%;
-            padding: 14px;
-            background: var(--color-accent);
+            padding: 15px;
+            background-image: var(--gradient-primary);
             color: #ffffff;
             border: none;
-            border-radius: 8px;
+            border-radius: 50px; /* Botones redondos */
             font-weight: bold;
             font-size: 1rem;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4);
             margin-top: 10px;
         }
 
         button:hover {
-            background: var(--color-accent-dark);
+            background-image: var(--gradient-hover);
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
         }
 
         /* --- TABLA DE RESULTADOS --- */
@@ -98,15 +137,18 @@
             width: 100%;
             max-width: 1000px;
             overflow-x: auto;
+            animation: fadeInDown 1.2s ease-out;
         }
 
         table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             background: var(--bg-container);
             border-radius: 12px;
             overflow: hidden; 
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow-soft);
+            backdrop-filter: blur(4px);
         }
 
         th, td {
@@ -116,11 +158,15 @@
         }
 
         th {
-            background-color: #333;
-            color: var(--color-accent); 
+            background-color: rgba(0, 0, 0, 0.3);
+            color: #a18cd1; /* Lila claro */
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             letter-spacing: 1px;
+        }
+
+        tr:hover td {
+            background-color: rgba(118, 75, 162, 0.1);
         }
 
         td {
@@ -129,34 +175,38 @@
         }
 
         a.download-link {
-            color: var(--color-accent);
+            color: #667eea;
             text-decoration: none;
             font-weight: bold;
+            transition: color 0.2s;
         }
-        a.download-link:hover { text-decoration: underline; }
+        a.download-link:hover { color: #fff; text-decoration: underline; }
 
         /* --- ETIQUETAS DE ESTADO --- */
         .status {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
             font-weight: bold;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .status.signed {
-            background-color: rgba(40, 167, 69, 0.2);
-            color: var(--color-success);
-            border: 1px solid var(--color-success);
+            background: linear-gradient(90deg, #11998e, #38ef7d); /* Verde gradiente */
+            color: white;
+            border: none;
+            box-shadow: 0 2px 10px rgba(56, 239, 125, 0.3);
         }
         .status.pending {
-            background-color: rgba(255, 193, 7, 0.2);
-            color: var(--color-warning);
-            border: 1px solid var(--color-warning);
+            background: linear-gradient(90deg, #f12711, #f5af19); /* Naranja gradiente */
+            color: white;
+            border: none;
+            box-shadow: 0 2px 10px rgba(245, 175, 25, 0.3);
         }
         
         .environment { font-weight: bold; }
-        .env-prod { color: var(--color-accent); }
-        .env-dev { color: #4da6ff; }
+        .env-prod { color: #fbc2eb; } /* Rosa pastel */
+        .env-dev { color: #a6c1ee; } /* Azul pastel */
 
         /* --- POPUP --- */
         #popup {
@@ -165,13 +215,14 @@
             top: 20px;
             right: 20px;
             padding: 15px 25px;
-            background-color: var(--color-success);
+            background: var(--gradient-primary);
             color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
             z-index: 1000;
             font-weight: 500;
             animation: slideIn 0.5s ease-out;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         @keyframes slideIn {
@@ -243,7 +294,6 @@
                 if (response.ok) {
                     const files = await response.json();
                     tableBody.innerHTML = ''; 
-                    // Mostramos los más recientes primero
                     files.reverse().forEach(file => addRowToTable(file));
                 }
             } catch (error) {
@@ -254,23 +304,20 @@
         function addRowToTable(file) {
             const newRow = document.createElement('tr');
             
-            // Formateo visual
             const shortId = file.id ? file.id.substring(0, 8) + '...' : '???';
             const shortSig = file.signature ? file.signature.substring(0, 10) + '...' : '—';
             
-            // Manejo de fecha
             let dateStr = file.uploaded_at || file.uploaded_date || '—';
             if(dateStr.includes('T')) dateStr = dateStr.split('T')[0];
 
-            // Link de descarga
             let actionHtml = '—';
             if (file.signed_path) {
                 actionHtml = `<a href="#" class="download-link" onclick="alert('Archivo guardado en: ${file.signed_path}')">Ver Ruta</a>`;
             }
 
             newRow.innerHTML = `
-                <td style="font-family:monospace; color: var(--text-secondary);">${shortId}</td>
-                <td>${file.filename}</td>
+                <td style="font-family:monospace; color: #a6c1ee;">${shortId}</td>
+                <td style="font-weight: 500;">${file.filename}</td>
                 <td class="environment env-${file.environment}">${file.environment}</td>
                 <td><span class="status ${file.status}">${file.status}</span></td>
                 <td>${dateStr}</td>
@@ -303,9 +350,9 @@
                 if (!uploadResponse.ok) throw new Error("Falló la subida");
                 const file = await uploadResponse.json();
 
-                let signed = file; // Por defecto usamos el resultado de la subida
+                let signed = file;
 
-                // 2. Firmar SOLO si NO es Producción (Dev)
+                // 2. Firmar SOLO si NO es Producción
                 if (!isProd) {
                     const signResponse = await fetch('/sign', {
                         method: 'POST',
@@ -318,20 +365,20 @@
 
                 // 3. Notificar
                 const isSigned = signed.status === "signed";
-                popup.style.backgroundColor = isSigned ? "var(--color-success)" : "var(--color-warning)";
-                popup.style.color = isSigned ? "white" : "#333";
+                // Modificar color del popup según resultado
+                popup.style.background = isSigned 
+                    ? "linear-gradient(90deg, #11998e, #38ef7d)" 
+                    : "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
                 
                 if (isSigned) {
                      popup.textContent = "¡Éxito! Archivo subido y firmado (Dev).";
                 } else {
-                     // Mensaje para Prod
                      popup.textContent = file.message || "Archivo subido. Revise su correo para aprobar.";
                 }
                 
                 popup.style.display = 'block';
                 setTimeout(() => popup.style.display = 'none', 4000);
 
-                // Recargar tabla
                 tableBody.innerHTML = '';
                 loadFiles();
 
@@ -340,8 +387,7 @@
 
             } catch (error) {
                 console.error(error);
-                popup.style.backgroundColor = "var(--color-accent)";
-                popup.style.color = "white";
+                popup.style.background = "#ff416c"; /* Rojo Error */
                 popup.textContent = "Error: " + error.message;
                 popup.style.display = 'block';
                 setTimeout(() => popup.style.display = 'none', 3000);

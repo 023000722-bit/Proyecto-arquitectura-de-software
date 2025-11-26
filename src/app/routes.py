@@ -40,6 +40,14 @@ def register_routes(app):
         if result: return jsonify(result.to_dict()), 200
         return jsonify({"error": "Error signing"}), 500
 
+    @app.route('/clear', methods=['POST'])
+    def clear_history():
+        try:
+            JsonRepository().delete_all()
+            FileRepository().delete_all()
+            return jsonify({"msg": "ok"}), 200
+        except: return jsonify({"error": "err"}), 500
+
     # --- RUTA QUE SE ABRE DESDE EL CORREO ---
     @app.route('/approve/<file_id>', methods=['GET'])
     def approve_file(file_id):
@@ -48,21 +56,94 @@ def register_routes(app):
         
         success = approve_use_case.execute(file_id)
         
+        # HTML con estilo en línea para la confirmación
         if success:
             return """
-            <div style="font-family: sans-serif; text-align: center; padding: 50px;">
-                <h1 style="color: #28a745;">¡Archivo Aprobado y Firmado! ✅</h1>
-                <p>El proceso de producción ha finalizado correctamente.</p>
-                <p>Puede cerrar esta ventana y refrescar su panel de control.</p>
-            </div>
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+                <meta charset="UTF-8">
+                <style>
+                    body {
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                        background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+                        height: 100vh;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin: 0;
+                        color: white;
+                    }
+                    .card {
+                        background: rgba(255, 255, 255, 0.1);
+                        backdrop-filter: blur(10px);
+                        padding: 40px;
+                        border-radius: 20px;
+                        text-align: center;
+                        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+                        border: 1px solid rgba(255, 255, 255, 0.18);
+                        max-width: 400px;
+                        animation: popIn 0.5s ease;
+                    }
+                    @keyframes popIn {
+                        from { transform: scale(0.8); opacity: 0; }
+                        to { transform: scale(1); opacity: 1; }
+                    }
+                    h1 { color: #00b09b; margin-bottom: 10px; }
+                    p { color: #d1d1d1; margin-bottom: 20px; }
+                    .btn {
+                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                        color: white;
+                        text-decoration: none;
+                        padding: 10px 20px;
+                        border-radius: 25px;
+                        font-weight: bold;
+                        box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4);
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="card">
+                    <h1 style="font-size: 3rem;">✅</h1>
+                    <h1>¡Archivo Firmado!</h1>
+                    <p>El documento ha sido aprobado y procesado correctamente en el servidor.</p>
+                    <br>
+                    <a href="javascript:window.close()" class="btn">Cerrar Ventana</a>
+                </div>
+            </body>
+            </html>
             """
         else:
-            return "<h1 style='color: red;'>Error ❌</h1><p>El archivo no existe o ya fue firmado.</p>"
-    
-    @app.route('/clear', methods=['POST'])
-    def clear_history():
-        try:
-            JsonRepository().delete_all()
-            FileRepository().delete_all()
-            return jsonify({"msg": "ok"}), 200
-        except: return jsonify({"error": "err"}), 500
+            return """
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+                <meta charset="UTF-8">
+                <style>
+                    body {
+                        font-family: 'Segoe UI', sans-serif;
+                        background: #0f0c29;
+                        color: white;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100vh;
+                        margin: 0;
+                    }
+                    .card {
+                        background: rgba(255,255,255,0.05);
+                        padding: 40px;
+                        border-radius: 15px;
+                        text-align: center;
+                        border: 1px solid #ff416c;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="card">
+                    <h1 style="color: #ff416c;">❌ Error</h1>
+                    <p>El archivo no existe o ya fue firmado anteriormente.</p>
+                </div>
+            </body>
+            </html>
+            """        

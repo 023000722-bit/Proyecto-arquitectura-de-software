@@ -20,8 +20,8 @@ def create_app():
     
  
     
-    app.config['MAIL_USERNAME'] = 'CORREO@EJEMPLO.COM'  
-    app.config['MAIL_PASSWORD'] = 'CONTRASEÑA_AQUI' 
+    app.config['MAIL_USERNAME'] = 'maffs1124@gmail.com'  
+    app.config['MAIL_PASSWORD'] = 'hamx wthz pwdq clbk' 
     
 
 
