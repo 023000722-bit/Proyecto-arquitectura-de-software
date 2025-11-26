@@ -1,10 +1,10 @@
 ![upsrj-logo](docs/img/upsrj.png)
-# Politécnica de Santa Rosa
+# Politécnica de Santa Rosa - Proyecto Arquitectura de Software
 
 | Subject         | Software Architectures                  |
 |-----------------|-----------------------------------------|
 | Title           | Final Project                           |
-| Owner           | Misael Espinoza Pacheco (023000278@upsrj.edu.mx) |
+| Owner           | Fabian Godinez Amezquita (023000722@upsrj.edu.mx) |
 
 
 ## Deployment URL Diagram
@@ -54,6 +54,7 @@ OTA Sign/
 │   ├── signed/
 │   └── binaries/
 │
-├── database.json                    # “Base de datos” local
+├── database.json                    # "Base de datos" local
 ├── requirements.txt
 └── README.md
+```
