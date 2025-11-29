@@ -386,14 +386,14 @@
                 fileNameDisplay.textContent = '';
 
             } catch (error) {
-                console.error(error);
+                console.error('Upload error:', error);
                 popup.style.background = "#ff416c"; /* Rojo Error */
-                popup.textContent = "Error: " + error.message;
+                popup.textContent = "Error: " + (error.message || "Falló la operación");
                 popup.style.display = 'block';
-                setTimeout(() => popup.style.display = 'none', 3000);
+                setTimeout(() => popup.style.display = 'none', 4000);
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.textContent = "SUBIR Y PROCESAR";
+                submitBtn.textContent = "Subir y Procesar";
             }
         });
     </script>

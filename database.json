@@ -28,5 +28,25 @@
         "signed_path": "C:\\Users\\kensh\\OneDrive\\Desktop\\a\\final\\ProyectoFinal_Entrega\\ProyectoFinal_Entrega\\data\\signed\\signed_e90a93f4-d9b4-4bb7-b3f4-792d5110f17320251126172441.bin",
         "signature": "0f472e03f609b24703638334f4f1917be04b3da074d3a081533d1d4ee4e619b8",
         "timestamp": "2025-11-26T17:24:41.447565"
+    },
+    {
+        "id": "786e5b54-0c22-4255-ae67-2593461e961b",
+        "filename": "data/binaries\\786e5b54-0c22-4255-ae67-2593461e961b20251128224553.bin",
+        "environment": "prod",
+        "status": "signed",
+        "uploaded_at": "2025-11-28T22:45:53.922326",
+        "signed_path": "C:\\Users\\kensh\\OneDrive\\Desktop\\a\\final\\ProyectoFinal_Entrega\\ProyectoFinal_Entrega\\data\\signed\\signed_786e5b54-0c22-4255-ae67-2593461e961b20251128224553.bin",
+        "signature": "0f472e03f609b24703638334f4f1917be04b3da074d3a081533d1d4ee4e619b8",
+        "timestamp": "2025-11-28T22:45:53.922962"
+    },
+    {
+        "id": "5ec7a00f-45f4-4cf1-8241-74936d9cf1a1",
+        "filename": "data/binaries\\5ec7a00f-45f4-4cf1-8241-74936d9cf1a120251128224614.bin",
+        "environment": "dev",
+        "status": "signed",
+        "uploaded_at": "2025-11-28T22:46:14.399384",
+        "signed_path": "C:\\Users\\kensh\\OneDrive\\Desktop\\a\\final\\ProyectoFinal_Entrega\\ProyectoFinal_Entrega\\data\\signed\\signed_5ec7a00f-45f4-4cf1-8241-74936d9cf1a120251128224614.bin",
+        "signature": "0f472e03f609b24703638334f4f1917be04b3da074d3a081533d1d4ee4e619b8",
+        "timestamp": "2025-11-28T22:46:14.399999"
     }
 ]

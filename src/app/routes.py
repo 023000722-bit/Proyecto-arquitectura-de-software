@@ -35,18 +35,22 @@ def register_routes(app):
     @app.route("/sign", methods=["POST"])
     def sign_file():
         data = request.get_json()
+        if not data or not data.get("file_id"):
+            return jsonify({"error": "File ID is required"}), 400
+        
         use_case = SignBinaryUseCase(FileRepository(), JsonRepository(), SigningService())
         result = use_case.execute(data.get("file_id"))
         if result: return jsonify(result.to_dict()), 200
-        return jsonify({"error": "Error signing"}), 500
+        return jsonify({"error": "Failed to sign file"}), 500
 
     @app.route('/clear', methods=['POST'])
     def clear_history():
         try:
             JsonRepository().delete_all()
             FileRepository().delete_all()
-            return jsonify({"msg": "ok"}), 200
-        except: return jsonify({"error": "err"}), 500
+            return jsonify({"message": "History cleared successfully"}), 200
+        except Exception as e:
+            return jsonify({"error": f"Failed to clear history: {str(e)}"}), 500
 
     # --- RUTA QUE SE ABRE DESDE EL CORREO ---
     @app.route('/approve/<file_id>', methods=['GET'])
